@@ -11,13 +11,14 @@
 #include <Stepper.h>
 #define STEPS 200;
 #define motorInterfaceType 1; // When using a Driver, interface type must be set to 1
+#define SpeedCap 30;
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT); // Initializing the built-in LED as an output to denote direction turned. This will be disabled in future versions.
   int i = 0; // Defining Loop Variable
-  stepper.setSpeed(1000); // Setting the maximum speed in steps per second
+  stepper.setSpeed(SpeedCap); // Setting the maximum speed in steps per second. Doing a safe value for now - a better one will be defined later experimentally.
   bool rise = true; // Boolean control for Oscillation direction
-  int SpeedCap = 0;
+  int currentSpeed = 0;
 }
 
 // The loop function runs over and over again forever
