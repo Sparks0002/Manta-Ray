@@ -9,29 +9,28 @@
 */
 
 #include <Stepper.h>
-#define STEPS 200;
-#define motorInterfaceType 1; // When using a Driver, interface type must be set to 1
-#define SpeedCap 30;
+#define motorInterfaceType 1; // When using a Driver, interface type must be set to 1 . . . may not be necessary (TBD)
+#define SpeedCap 60;
+
+const int stepsPerRevolution = 200; // Will be changed to match our motor
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11); // Initializing a stepper motor on pins 8-11
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT); // Initializing the built-in LED as an output to denote direction turned. This will be disabled in future versions.
-  int i = 0; // Defining Loop Variable
-  stepper.setSpeed(SpeedCap); // Setting the maximum speed in steps per second. Doing a safe value for now - a better one will be defined later experimentally.
-  bool rise = true; // Boolean control for Oscillation direction
-  int currentSpeed = 0;
+  myStepper.setSpeed(SpeedCap); // Units of RPM
+  Serial.begin(9600);
 }
 
 // The loop function runs over and over again forever
 void loop() {
 
-  for(i = 10; speedCap < 1000; speedCap+i){
-    if(rise){
-      stepper.step(i)
-
-    }
-  }
+  myStepper.step(stepsPerRevolution);
   digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on (HIGH is the voltage level)
-  delay(1000);                      // wait for a second
+  Serial.println("clockwise");
+  delay(500);                      // wait for half a second
+
+  myStepper.step(stepsPerRevolution);
   digitalWrite(LED_BUILTIN, LOW);   // turn the LED off by making the voltage LOW
-  delay(1000);                      // wait for a second
+  Serial.println("counterclockwise");
+  delay(500);                      // wait for half a second
 }
