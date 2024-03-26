@@ -25,6 +25,8 @@ Motors are active low to turn them on - we can run a kill switch function to sen
 yellow = en
 blue = step
 white = dir
+Orange = MS1
+Green = MS2
 We want to document the code fully so others could debug this. We want to monitor the number of steps used to complete a rotation
 We want to find optimal step sizes for speed and torque
 *************************************************************************/
