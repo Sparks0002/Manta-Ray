@@ -1,4 +1,11 @@
-using namespace std;
+/****************************************************************************** 
+
+This program is a motor class that will hold port data and control the motor itself.
+There are several useful debug and informational member functions as well as utility functions
+to both extract useful data and operate any given motor. It requires, at minimum, the ports for the
+direction pin, the enable pin, and the step pin.
+
+******************************************************************************/
 class Motor {
   private:
     bool killswitch;
