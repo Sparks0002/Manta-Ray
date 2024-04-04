@@ -27,11 +27,13 @@ blue = step
 white = dir
 Orange = MS1
 Green = MS2
+Red = Power
+Black (Both) = Ground
 We want to document the code fully so others could debug this. We want to monitor the number of steps used to complete a rotation
 We want to find optimal step sizes for speed and torque
 *************************************************************************/
 #define stp 2
-#define dir 3
+#define dir 50
 #define MS1 4
 #define MS2 5
 #define EN  6
@@ -40,10 +42,13 @@ We want to find optimal step sizes for speed and torque
 char user_input;
 int x;
 int y;
+int delayF;
+int delayR;
 int state;
-bool killswitch;
 
 void setup() {
+  delayF = 1; // Increasing delay will slow the motor down, lowering it will speed it up
+  delayR = 1; // Delay time is in ms
   pinMode(stp, OUTPUT);
   pinMode(dir, OUTPUT);
   pinMode(MS1, OUTPUT);
@@ -69,7 +74,7 @@ void loop() {
       digitalWrite(EN, LOW); //Pull enable pin low to allow motor control
       if (user_input =='1')
       {
-         StepForwardDefault();
+        StepForwardDefault();
       }
       else if(user_input =='2')
       {
@@ -85,7 +90,7 @@ void loop() {
       }
       else
       {
-        Serial.println("Invalid option entered.");
+        //Serial.println("Invalid option entered.");
       }
       resetEDPins();
   }
@@ -109,9 +114,9 @@ void StepForwardDefault()
   for(x= 0; x<1000; x++)  //Loop the forward stepping enough times for motion to be visible
   {
     digitalWrite(stp,HIGH); //Trigger one step forward
-    delay(1);
+    delay(delayF);
     digitalWrite(stp,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
+    delay(delayF);
   }
   Serial.println("Enter new option");
   Serial.println();
@@ -125,9 +130,9 @@ void ReverseStepDefault()
   for(x= 0; x<1000; x++)  //Loop the stepping enough times for motion to be visible
   {
     digitalWrite(stp,HIGH); //Trigger one step
-    delay(1);
+    delay(delayR);
     digitalWrite(stp,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
+    delay(delayR);
   }
   Serial.println("Enter new option");
   Serial.println();
@@ -136,6 +141,7 @@ void ReverseStepDefault()
 // 1/8th microstep foward mode function
 void SmallStepMode()
 {
+
   Serial.println("Stepping at 1/8th microstep mode.");
   digitalWrite(dir, LOW); //Pull direction pin low to move "forward"
   digitalWrite(MS1, HIGH); //Pull MS1, and MS2 high to set logic to 1/8th microstep resolution
@@ -143,9 +149,9 @@ void SmallStepMode()
   for(x= 0; x<1000; x++)  //Loop the forward stepping enough times for motion to be visible
   {
     digitalWrite(stp,HIGH); //Trigger one step forward
-    delay(1);
+    delay(delayF);
     digitalWrite(stp,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
+    delay(delayF);
   }
   Serial.println("Enter new option");
   Serial.println();
@@ -154,6 +160,7 @@ void SmallStepMode()
 //Forward/reverse stepping function
 void ForwardBackwardStep()
 {
+  int delayC; // Current delay used based on direction
   Serial.println("Alternate between stepping forward and reverse.");
   for(x= 1; x<5; x++)  //Loop the forward stepping enough times for motion to be visible
   {
@@ -162,18 +169,20 @@ void ForwardBackwardStep()
     if(state == HIGH)
     {
       digitalWrite(dir, LOW);
+      delayC = delayF; // Forward Direction Motion
     }
-    else if(state ==LOW)
+    else if(state == LOW)
     {
       digitalWrite(dir,HIGH);
+      delayC = delayR; // Reverse Direction Motion
     }
     
-    for(y=0; y<1000; y++)
+    for(y=0 ; y<1000; y++)
     {
       digitalWrite(stp,HIGH); //Trigger one step
-      delay(1);
+      delay(delayC); // Choosing to tie the delay to the forward motion delay
       digitalWrite(stp,LOW); //Pull step pin low so it can be triggered again
-      delay(1);
+      delay(delayC);
     }
   }
   Serial.println("Enter new option:");
