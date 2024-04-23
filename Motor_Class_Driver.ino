@@ -1,8 +1,7 @@
 /****************************************************************************** 
 
 This program operates the Motor class by instantiating a motor object with the predefined pinouts.
-Three options exist to debug the motor itself. This class will be used later to operate 4 motors
-simultaneously.
+Three options exist to debug the motor itself. This class will be used to debug 2 motors.
 
 /*************************************************************************
 Notes for coding:
