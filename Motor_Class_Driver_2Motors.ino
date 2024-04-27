@@ -22,7 +22,7 @@ We want to find optimal step sizes for speed and torque
 #define M1_stp 2
 #define M1_dir 50
 #define M1_MS1 51
-#define M1_MS2 50
+#define M1_MS2 52
 #define M1_EN  49
 
 // MOTOR 2 (M2)
