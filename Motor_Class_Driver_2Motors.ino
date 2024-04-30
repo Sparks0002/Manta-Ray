@@ -40,7 +40,7 @@ int i; // Iteration variable
 
 void setup() {
   time_delay = 1; //delay function uses values in milliseconds.
-  step_count = 5; // Keep time delay and step count consisten for all motors.
+  step_count = 500; // Keep time delay and step count consisten for all motors.
   Serial.begin(9600); //Open Serial connection for debugging
   Serial.println("Begin motor control");
   Serial.println();
